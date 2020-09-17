@@ -29,6 +29,7 @@ public class Project {
     @NotBlank(message = "Description is Required")
     private String description;
     @JsonFormat(pattern = "yyyy-mm-dd")
+    @Column(updatable = false)
     private Date start_date;
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
