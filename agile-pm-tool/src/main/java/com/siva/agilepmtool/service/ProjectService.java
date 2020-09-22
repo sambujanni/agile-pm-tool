@@ -1,6 +1,7 @@
 package com.siva.agilepmtool.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siva.agilepmtool.domain.Backlog;
 import com.siva.agilepmtool.domain.Project;
 import com.siva.agilepmtool.exceptions.ProjectIdentifierException;
 import com.siva.agilepmtool.repository.ProjectRepository;
@@ -20,6 +21,12 @@ public class ProjectService {
     public Project addProject(Project project) {
         try {
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            if(project.getProjectId() == null) {
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            }
             return projectRepository.save(project);
         } catch (Exception e) {
             throw new ProjectIdentifierException("Project Id '" + project.getProjectIdentifier().toUpperCase() + "' already exists" );

@@ -14,10 +14,11 @@ import java.util.stream.Collectors;
 public class MapValidationErrors {
 
     public ResponseEntity<Map<String, String>> mapErrors(BindingResult result) {
+        System.out.println(result);
         if (result.hasErrors()) {
             Map<String, String> map = result.getFieldErrors().stream()
                     .collect(Collectors
-                            .toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage,
+                            .toMap(res -> res.getField(), res -> res.getDefaultMessage(),
                                     (a1, a2) -> a1));
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }
